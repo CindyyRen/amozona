@@ -2,9 +2,9 @@ import React, { useEffect, useReducer } from 'react';
 import logger from 'use-reducer-logger';
 import { Row, Col, Spinner } from 'react-bootstrap';
 import axios from 'axios';
-import Product from './components/Product';
+import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
-import MessageBox from './components/MessageBox';
+import MessageBox from '../components/MessageBox';
 import { getError } from '../utils';
 // import data from '../data';
 const reducer = (state, action) => {

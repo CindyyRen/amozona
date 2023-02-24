@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect, useReducer } from 'react';
 import axios from 'axios';
 import {
@@ -10,11 +10,12 @@ import {
   Button,
   Spinner,
 } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import Rating from './components/Rating';
-import MessageBox from './components/MessageBox';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import Rating from '../components/Rating';
+import MessageBox from '../components/MessageBox';
 import { Helmet } from 'react-helmet-async';
 import { getError } from '../utils';
+import { Store } from '../Store';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -29,6 +30,7 @@ const reducer = (state, action) => {
   }
 };
 export default function ProductScreen() {
+  const navigate = useNavigate();
   const { slug } = useParams();
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     product: [],
@@ -43,13 +45,29 @@ export default function ProductScreen() {
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
-        console.log(err);
+        // console.log(err);
       }
       // setProducts(result.data);
     };
     fetchData();
   }, [slug]);
   // const product=data.products.map((product) => product.slug === slug)
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock < quantity) {
+      window.alert('Sorry, product is out of stock');
+      return;
+    }
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity: quantity },
+    });
+    navigate('/cart');
+  };
   return (
     <div>
       {loading ? (
@@ -102,7 +120,7 @@ export default function ProductScreen() {
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <div className="d-grid">
-                        <Button variant="primary">Add to Cart</Button>
+                        <Button onClick={addToCartHandler}>Add to Cart</Button>
                       </div>
                     </ListGroup.Item>
                   )}
