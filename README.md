@@ -8,4 +8,8 @@ lessons
    2. add product images
    3. render products
    4. style products
+   mongodb+srv://Username:<password>@amazona.n92hkwu.mongodb.net/?retryWrites=true&w=
+
+
+
    
