@@ -10,6 +10,12 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import SignupScreen from './screens/SignupScreen';
+import PaymentMethodScreen from './screens/PaymentMethodScreen';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
+
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -17,6 +23,8 @@ function App() {
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
   };
   return (
     <BrowserRouter>
@@ -69,10 +77,15 @@ function App() {
               <Route path="/product/:slug" element={<ProductScreen />}></Route>
               <Route path="/cart" element={<CartScreen />}></Route>
               <Route path="/signin" element={<SigninScreen />}></Route>
+              <Route path="/signup" element={<SignupScreen />}></Route>
+              <Route
+                path="/shipping"
+                element={<ShippingAddressScreen />}
+              ></Route>
+              <Route path="/payment" element={<PaymentMethodScreen />}></Route>
+              <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              <Route path="/order/:id" element={<OrderScreen />}></Route>
               <Route path="/" element={<HomeScreen />}></Route>
-              {/* <Route></Route>
-          <Route></Route>
-          <Route></Route> */}
             </Routes>
           </Container>
         </main>
