@@ -10,7 +10,7 @@ import {
   Button,
   Spinner,
 } from 'react-bootstrap';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
 import MessageBox from '../components/MessageBox';
 import { Helmet } from 'react-helmet-async';

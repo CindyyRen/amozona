@@ -22,7 +22,7 @@ export default function Product({ product }) {
       type: 'CART_ADD_ITEM',
       payload: { ...product, quantity: quantity },
     });
-    // navigate('/cart');
+    navigate('/cart');
   };
   return (
     <Card>
